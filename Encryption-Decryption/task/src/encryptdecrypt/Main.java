@@ -57,18 +57,19 @@ public class Main {
 
     public static void defineAttributes(String[] args) {
         for (int i = 0; i < args.length; i += 2) {
-            if ("-mode".equals(args[i])) {
-                mode = args[i + 1];
-            } else if ("-key".equals(args[i])) {
-                key = Integer.parseInt(args[i + 1]);
-            } else if ("-data".equals(args[i])) {
-                data = args[i + 1];
-            } else if ("-in".equals(args[i])) {
-                in = args[i + 1];
-                isFile = true;
-            } else if ("-out".equals(args[i])) {
-                out = args[i + 1];
-                isFile = true;
+
+            switch (args[i]) {
+                case "-mode" -> mode = args[i + 1];
+                case "-key" -> key = Integer.parseInt(args[i + 1]);
+                case "-data" -> data = args[i + 1];
+                case "-in" -> {
+                    in = args[i + 1];
+                    isFile = true;
+                }
+                case "-out" -> {
+                    out = args[i + 1];
+                    isFile = true;
+                }
             }
         }
     }
