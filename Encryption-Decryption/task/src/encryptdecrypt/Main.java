@@ -26,9 +26,6 @@ public class Main {
             writeToFile();
         } else {
             chooseEncOrDec();
-
-//            System.out.println(mode + key + data + result + algorithm);
-
             System.out.println(result);
         }
 
