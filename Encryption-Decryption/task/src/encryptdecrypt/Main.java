@@ -14,6 +14,7 @@ public class Main {
     static String in = "";
     static String out = "";
     static String result = "";
+    static String algorithm = "shift";
 
     public static void main(String[] args) throws FileNotFoundException {
 
@@ -25,15 +26,21 @@ public class Main {
             writeToFile();
         } else {
             chooseEncOrDec();
+
+//            System.out.println(mode + key + data + result + algorithm);
+
             System.out.println(result);
         }
+
     }
 
     public static void chooseEncOrDec() {
+        AlgorithmFactory algorithmFactory = createAlgorithmBySpecialty(algorithm);
+        Algorithm algorithm = algorithmFactory.createAlgorithm();
         if ("enc".equals(mode)) {
-            result = encrypting(data, key);
+            result = algorithm.encrypt(data, key);
         } else if ("dec".equals(mode)) {
-            result = decrypting(data, key);
+            result = algorithm.decrypt(data, key);
         }
     }
 
@@ -70,25 +77,19 @@ public class Main {
                     out = args[i + 1];
                     isFile = true;
                 }
+                case "-alg" -> algorithm = args[i + 1];
             }
         }
     }
 
-    public static String encrypting(String str, int key) {
-        StringBuilder result = new StringBuilder();
-        for (char character : str.toCharArray()) {
-            char newCharacter = (char) (character + key);
-            result.append(newCharacter);
-        }
-        return String.valueOf(result);
-    }
 
-    public static String decrypting(String str, int key) {
-        StringBuilder result = new StringBuilder();
-        for (char character : str.toCharArray()) {
-            char newCharacter = (char) (character - key);
-            result.append(newCharacter);
+    static AlgorithmFactory createAlgorithmBySpecialty(String specialty) {
+        if ("unicode".equalsIgnoreCase(specialty)) {
+            return new UnicodeFactory();
+        } else if ("shift".equalsIgnoreCase(specialty)) {
+            return new ShiftFactory();
+        } else {
+            throw new RuntimeException(specialty + " is unknown");
         }
-        return String.valueOf(result);
     }
 }
